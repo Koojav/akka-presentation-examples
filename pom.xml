@@ -6,15 +6,13 @@
 
     <groupId>com.workfront.examples.akka</groupId>
     <artifactId>akka-presentation-examples</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-actor_2.12</artifactId>
-            <version>2.5.13</version>
-        </dependency>
-    </dependencies>
+    <modules>
+        <module>actor-creation</module>
+    </modules>
+
 
     <build>
         <plugins>
@@ -25,19 +23,6 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.6.0</version>
-                <configuration>
-                    <executable>java</executable>
-                    <arguments>
-                        <argument>-classpath</argument>
-                        <classpath />
-                        <argument>com.lightbend.akka.sample.AkkaQuickstart</argument>
-                    </arguments>
                 </configuration>
             </plugin>
         </plugins>
