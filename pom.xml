@@ -11,6 +11,7 @@
 
     <modules>
         <module>actor-creation</module>
+        <module>remot-eactor</module>
     </modules>
 
 
