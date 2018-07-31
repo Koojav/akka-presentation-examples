@@ -12,6 +12,7 @@
     <modules>
         <module>actor-creation</module>
         <module>remot-eactor</module>
+        <module>web-crawler</module>
     </modules>
 
 
