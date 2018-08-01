@@ -57,7 +57,7 @@ public class HeroProcessingBalancerActor extends AbstractActor
                 .build();
     }
 
-    //
+    // Propagate messages with jobs to hero processors in a balanced manner.
     private void performBalancedJobBroadcast()
     {
         // Propagate all tasks waiting in the queue to attached HeroProcessorActor instances

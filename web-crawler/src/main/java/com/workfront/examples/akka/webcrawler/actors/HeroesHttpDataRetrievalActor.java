@@ -32,12 +32,16 @@ public class HeroesHttpDataRetrievalActor extends AbstractActor
         return receiveBuilder().
                 match(HttpGetHeroesHtmlMessage.class, message ->
                 {
+                    // Logging state
                     log.info("HTTP GET: " + message.url);
 
+                    // HTTP GET + parse table into separate rows which will be later on distrubuted by balancer
+                    // as single jobs for hero processors
                     Document doc = Jsoup.connect(message.url).get();
                     Elements heroHtmlRows = doc.selectFirst("table.wikitable").select("tbody tr");
                     heroHtmlRows.remove(0);
 
+                    // Send message back balancer so it can start distrubuting jobs between processors
                     HeroesReadyToProcessMessage heroesReadyToProcessMessage = new HeroesReadyToProcessMessage(heroHtmlRows);
                     sender().tell(heroesReadyToProcessMessage, Actor.noSender());
                 })

@@ -5,10 +5,6 @@ import akka.actor.Props;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.workfront.examples.akka.webcrawler.messages.ProcessHeroMessage;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 public class HeroProcessorActor extends AbstractActor
 {

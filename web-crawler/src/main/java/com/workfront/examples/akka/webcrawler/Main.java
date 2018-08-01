@@ -35,11 +35,8 @@ public class Main
         // Create balancer which will distrubute processing jobs between multiple instances of HeroProcessorActor
         final ActorRef heroProcessingBalancer = actorSystem.actorOf(HeroProcessingBalancerActor.props(), "heroProcessingBalancer");
 
-        // TODO: Actually move this inside the load balancer and make all HeroProcessingActor instances be in its' scope
-
         // Create and register Actors that will perform data processing
         // Those might be created within the context of the load balancer itself
-        // Putting them here just for presentation purposes
         for (int i = 0; i < 5; i++)
         {
             final ActorRef heroProcessor = actorSystem.actorOf(HeroProcessorActor.props(), "heroProcessor" + i);
