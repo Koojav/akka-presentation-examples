@@ -8,6 +8,8 @@ import akka.event.LoggingAdapter;
 import com.workfront.examples.akka.webcrawler.messages.HeroesReadyToProcessMessage;
 import com.workfront.examples.akka.webcrawler.messages.ProcessHeroMessage;
 import com.workfront.examples.akka.webcrawler.messages.RegisterHeroProcessorMessage;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,7 +29,7 @@ public class HeroProcessingBalancerActor extends AbstractActor
     }
 
     // Contains HTML rows with hero info, one row per one entry in ArrayList
-    private ArrayList<String> heroHTMLrows = new ArrayList<>();
+    private Elements heroHtmlRows = new Elements();
 
 
     // List of Actors that have stated their willingness to process further hero rows provided in HTML form
@@ -44,7 +46,7 @@ public class HeroProcessingBalancerActor extends AbstractActor
                 match(HeroesReadyToProcessMessage.class, message ->
                 {
                     log.info("Received new items to distribute.");
-                    heroHTMLrows.addAll(message.heroHTMLrows);
+                    heroHtmlRows.addAll(message.heroHtmlRows);
                     performBalancedJobBroadcast();
                 }).
                 match(RegisterHeroProcessorMessage.class, message ->
@@ -59,9 +61,9 @@ public class HeroProcessingBalancerActor extends AbstractActor
     private void performBalancedJobBroadcast()
     {
         // Propagate all tasks waiting in the queue to attached HeroProcessorActor instances
-        while (heroHTMLrows.size() > 0)
+        while (heroHtmlRows.size() > 0)
         {
-            String heroHTMLrow = heroHTMLrows.remove(0);
+            Element heroHTMLrow = heroHtmlRows.remove(0);
             ProcessHeroMessage processHeroMessage = new ProcessHeroMessage(heroHTMLrow);
 
             // Iterator might have not yet been created or was left at the last hero processor

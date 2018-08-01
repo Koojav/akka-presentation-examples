@@ -5,6 +5,10 @@ import akka.actor.Props;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.workfront.examples.akka.webcrawler.messages.ProcessHeroMessage;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class HeroProcessorActor extends AbstractActor
 {
@@ -27,8 +31,7 @@ public class HeroProcessorActor extends AbstractActor
         return receiveBuilder().
                 match(ProcessHeroMessage.class, message ->
                 {
-                    log.info("Processing hero: " + message.heroHTMLrow);
-                    // TODO: process message.heroHTMLrow
+                    log.info("Processing hero: " + message.heroHtmlRow.select("td a").get(1).attr("title"));
                 })
                 .build();
     }

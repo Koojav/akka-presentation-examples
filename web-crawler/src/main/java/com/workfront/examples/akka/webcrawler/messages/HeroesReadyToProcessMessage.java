@@ -1,13 +1,13 @@
 package com.workfront.examples.akka.webcrawler.messages;
 
-import java.util.ArrayList;
+import org.jsoup.select.Elements;
 
 public class HeroesReadyToProcessMessage
 {
-    public final ArrayList<String> heroHTMLrows;
+    public final Elements heroHtmlRows;
 
-    public HeroesReadyToProcessMessage(ArrayList<String> heroHTMLrows)
+    public HeroesReadyToProcessMessage(Elements heroHtmlRows)
     {
-        this.heroHTMLrows = heroHTMLrows;
+        this.heroHtmlRows = heroHtmlRows;
     }
 }

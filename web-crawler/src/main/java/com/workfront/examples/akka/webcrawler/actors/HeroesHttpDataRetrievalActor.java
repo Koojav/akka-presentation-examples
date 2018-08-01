@@ -7,8 +7,9 @@ import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.workfront.examples.akka.webcrawler.messages.HeroesReadyToProcessMessage;
 import com.workfront.examples.akka.webcrawler.messages.HttpGetHeroesHtmlMessage;
-
-import java.util.ArrayList;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 public class HeroesHttpDataRetrievalActor extends AbstractActor
 {
@@ -33,16 +34,11 @@ public class HeroesHttpDataRetrievalActor extends AbstractActor
                 {
                     log.info("HTTP GET: " + message.url);
 
-                    // TODO : retrieve data, separate rows, create ArrayList<String>
+                    Document doc = Jsoup.connect(message.url).get();
+                    Elements heroHtmlRows = doc.selectFirst("table.wikitable").select("tbody tr");
+                    heroHtmlRows.remove(0);
 
-                    ArrayList<String> heroHTMLrows = new ArrayList<>();
-
-                    heroHTMLrows.add("Hero1HTML");
-                    heroHTMLrows.add("Hero2HTML");
-                    heroHTMLrows.add("Hero3HTML");
-
-                    HeroesReadyToProcessMessage heroesReadyToProcessMessage = new HeroesReadyToProcessMessage(heroHTMLrows);
-
+                    HeroesReadyToProcessMessage heroesReadyToProcessMessage = new HeroesReadyToProcessMessage(heroHtmlRows);
                     sender().tell(heroesReadyToProcessMessage, Actor.noSender());
                 })
                 .build();
