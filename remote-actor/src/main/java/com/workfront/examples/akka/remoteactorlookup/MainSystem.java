@@ -26,6 +26,5 @@ public class MainSystem
 
         // Use it in the same manner as any locally created one
         actor.tell(new SimpleMessage("Hello Remote World!"), ActorRef.noSender());
-
     }
 }
